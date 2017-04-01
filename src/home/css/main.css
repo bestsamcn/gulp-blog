@@ -1,0 +1,12 @@
+@@@include('dist/lib/bootstrap/dist/css/bootstrap.css')
+@@@include('dist/css/base.css')
+.home{
+    width:100%;  
+    height:100%;
+    text-align: center; 
+}
+.home .hehe{
+    width:34px;
+    height:34px;
+    background: url(../../img/sprite/cate-other-on.png) 0 0 no-repeat;
+}
