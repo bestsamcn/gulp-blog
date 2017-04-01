@@ -49,7 +49,18 @@ gulp.task('open', function() {
 /**
  * 复制全部
  */
-gulp.task('copy:all', function() {
+gulp.task('clean', function(){
+    return gulp.src('dist')
+    .pipe(clean())
+})
+
+gulp.task('copy:all', ['clean'], function() {
+    var src = 'src/**/*';
+    var build = 'dist';
+    return gulp.src(src).pipe(gulp.dest(build));
+});
+
+gulp.task('copy:watch', function() {
     var src = 'src/**/*';
     var build = 'dist';
     return gulp.src(src).pipe(gulp.dest(build));
@@ -125,7 +136,7 @@ gulp.task('includecs', function() {
 gulp.task('watch', function() {
     livereload.listen(35730);
     gulp.watch('src/**', function(file) {
-        runSequence('copy:all', 'template', 'includejs', 'includecs' , 'spriter', function(){
+        runSequence('copy:watch', 'template', 'includejs', 'includecs' , 'spriter', function(){
             setTimeout(livereload.reload(file.path),1000);
         });
     });

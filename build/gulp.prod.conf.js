@@ -79,7 +79,7 @@ gulp.task('template:build', function() {
  * 删除压缩过的js
  */
 gulp.task('delminjs:build', function(){
-    return gulp.src(['dist/**/*-*.js','!dist/lib/**/**.js'])
+    return gulp.src(['dist/**/*-*-*.js','!dist/lib/**/**.js'])
     .pipe(vinylPaths(del))
 })
 
@@ -110,7 +110,7 @@ gulp.task('jsmin:build', ['uglify:build'], function(){
  * 删除压缩过的js
  */
 gulp.task('delmincss:build', function(){
-    return gulp.src(['dist/**/*-?*.css','!dist/lib/**/*.css'])
+    return gulp.src(['dist/**/*-*-*.css','!dist/lib/**/*.css'])
     .pipe(vinylPaths(del))
 })
 
@@ -199,7 +199,8 @@ gulp.task('includecs:build', function() {
  */
 
 gulp.task('delrubbish', function(){
-    return gulp.src(['dist/**/!main-*{js,css}','!dist/lib/**/*','!dist/{js,css}/*'])
+    //删除文件夹可以使用dist/folder
+    return gulp.src(['dist/**/*.{js,css}','dist/{css,include,rev,lib}', '!dist/**/{main-*,require}-*.{js,css}', '!dist/lib/**/*'])
     .pipe(vinylPaths(del))
 })
 

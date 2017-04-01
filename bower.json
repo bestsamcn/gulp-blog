@@ -1,0 +1,18 @@
+{
+  "name": "gulp-config",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "bestsamcn <645298225@qq.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/bestsamcn/gulp-config",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "./lib",
+    "test",
+    "tests"
+  ]
+}
