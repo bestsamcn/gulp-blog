@@ -99,7 +99,7 @@ gulp.task('uglify:build', ['delminjs:build'], function(){
  * 根据manifest修改模板js路径
  */
 gulp.task('jsmin:build', ['uglify:build'], function(){
-    gulp.src(['dist/rev/js/*.json', 'dist/**/*.html'])
+    gulp.src(['dist/rev/js/*.json', 'dist/**/*.html', '!dist/lib/**/*'])
     .pipe(revCollector())
     .pipe(gulp.dest('dist'))
 });
@@ -200,7 +200,7 @@ gulp.task('includecs:build', function() {
 
 gulp.task('delrubbish', function(){
     //删除文件夹可以使用dist/folder
-    return gulp.src(['dist/**/*.{js,css}','dist/{css,include,rev,lib}', '!dist/**/{main-*,require}-*.{js,css}', '!dist/lib/**/*'])
+    return gulp.src(['dist/**/*.{js,css}','dist/{css,include,rev,lib}', '!dist/**/{main-*,require}-*.{js,css}'])
     .pipe(vinylPaths(del))
 })
 

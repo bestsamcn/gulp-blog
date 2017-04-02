@@ -11,8 +11,11 @@
     "**/.*",
     "node_modules",
     "bower_components",
-    "./lib",
-    "test",
-    "tests"
-  ]
+    "./lib"
+  ],
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "bootstrap": "^3.3.7",
+    "owl.carousel": "^2.2.1"
+  }
 }
