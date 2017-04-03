@@ -2,6 +2,7 @@
 基于gulp, gulp-file-include, requirejs的多页面脚手架。
 
 ## 任务
+- 开发环境任务文件在``conf/gulp.dev.conf.js``，生产环境任务文件在``conf/gulp.prod.conf.js``
 - 默认的任务``gulp``是开发环境下启动任务，没有做任何的压缩操作，方便调试。
 - 生产环境打包使用``gulp build`` 这个任务会依据``main-*.{css,js}``进行打包，务必将页面入口css和js的前缀带有``main``，否则会出现异常情况。
 - 生产环境打包后会删除一些不必要的目录和文件，并添加版本控制。
@@ -20,8 +21,7 @@
 <link rel="stylesheet" href="/home/css/main-home.css">
 <script src="/js/require.js" data-main="/home/js/main-home.js"></script>
 ```
-- 因为使用fileinclude来合并了css和js，所以里面的路径都是以合并后的文件为准，  
-例如：``dist/css/base.css``这个文件
+- 因为使用fileinclude来合并了css和js，所以里面的路径都是以合并后的文件为准，例如：``dist/css/base.css``这个文件：  
 在``home/css/index.css中``引入了,其中的css路径是针对``home/css/index.css``的。
 ```css
 //base.css，引用img的图片应这么些写

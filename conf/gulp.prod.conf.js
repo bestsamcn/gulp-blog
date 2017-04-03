@@ -144,8 +144,8 @@ gulp.task('spriter:build', function(){
     var timestamp = +new Date();
     return gulp.src('dist/**/*.css')
     .pipe(spriter({
-        spriteSheet: 'dist/img/sprite/sprite_icon_' + timestamp + '.png',
-        pathToSpriteSheetFromCSS: '/img/sprite/sprite_icon_' + timestamp + '.png',
+        spriteSheet: 'dist/img/sprite_icon_' + timestamp + '.png',
+        pathToSpriteSheetFromCSS: '/img/sprite_icon_' + timestamp + '.png',
         spritesmithOptions: {
             padding: 10
         }
@@ -200,7 +200,7 @@ gulp.task('includecs:build', function() {
 
 gulp.task('delrubbish', function(){
     //删除文件夹可以使用dist/folder
-    return gulp.src(['dist/**/*.{js,css}','dist/{css,include,rev,lib}', '!dist/**/{main-*,require}-*.{js,css}'])
+    return gulp.src(['dist/**/*.{js,css}','dist/{css,include,rev,lib}', 'dist/img/sprite', '!dist/**/{main-*,require}-*.{js,css}'])
     .pipe(vinylPaths(del))
 })
 

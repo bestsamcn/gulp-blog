@@ -1,8 +1,8 @@
 
 var gulp = require('gulp')
 var runSequence = require('run-sequence');
-require('./build/gulp.dev.conf.js')
-require('./build/gulp.prod.conf.js')
+require('./conf/gulp.dev.conf.js')
+require('./conf/gulp.prod.conf.js')
 
 
 gulp.task('default', function() {
