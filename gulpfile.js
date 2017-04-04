@@ -6,7 +6,7 @@ require('./conf/gulp.prod.conf.js')
 
 
 gulp.task('default', function() {
-    runSequence('copy:all', 'template', 'includejs', 'includecs' , 'spriter','server', 'open', 'watch');
+    runSequence('copy:all', 'template', 'includejs', 'includecs', 'server', 'open', 'watch');
 });
 
 gulp.task('build', function(){

@@ -9,13 +9,30 @@
 
 ## 使用
 - 目录结构形式务必要和``src``一样，``dist``文件夹会自动生成。
+- 雪碧图需要用到的文件都应该放在``src/img/sprite``下面，方便打包。
 - 由于服务器会自动将根目录的``index.html``作为入口，所以把首页的入口html文件放在根目录。
 - ``src/lib``放js库，例如``require.js``,``common.js``,``src/css``放第三方的css文件还有公共css（``base.css``），  
 例如``animate.css``，``src/img``放全部的图片文件，其下子文件夹``src/img/sprite``放雪碧图的源文件。
 - 其他文件夹以业务模块划分，例如首页是``home``,登录注册页是``sign``,其下都有两个文件夹``src/home/js``，``src/home/css``，以及页面（首页入口html放在根目录）。
 - ``src/include``这个文件夹主要放公共页面代码还有meta部分。
+- 生产环境打包完成后，请将文件放在网站服务器的根目录下。
 
 ## 注意
+- html模板引入前缀和后缀都是``@@``，js的引入只有前缀``@@``，css的引入是``@@@``(蛋疼)。
+- 对于一些没有声明名称的amd模块，目前只能通过修改源码实现了，例如``art-template``,需修改一下代码：  
+```javascript
+// CommonJs
+if (typeof exports === 'object' && typeof module !== 'undefined') {
+    module.exports = template;
+// RequireJS && SeaJS
+} else if (typeof define === 'function') {
+    define('template',[], function() {
+        return template;
+    });
+} else {
+    this.template = template;
+}
+```
 - 文件的引入尽量使用绝对路径，因为生产环境打包添加版本控制的时候需要一个完整的路径。
 ```html
 <link rel="stylesheet" href="/home/css/main-home.css">

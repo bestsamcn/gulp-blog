@@ -22,6 +22,7 @@ var amdOptimize = require('amd-optimize');
 var concat = require('gulp-concat');
 var fileinclude = require('gulp-file-include');
 var clean = require('gulp-clean');
+var plumber = require('gulp-plumber');
 
 /**
  * 服务器
@@ -51,19 +52,24 @@ gulp.task('open', function() {
  */
 gulp.task('clean', function(){
     return gulp.src('dist')
+    .pipe(plumber())
     .pipe(clean())
 })
 
 gulp.task('copy:all', ['clean'], function() {
     var src = 'src/**/*';
     var build = 'dist';
-    return gulp.src(src).pipe(gulp.dest(build));
+    return gulp.src(src)
+    .pipe(plumber())
+    .pipe(gulp.dest(build));
 });
 
 gulp.task('copy:watch', function() {
     var src = 'src/**/*';
     var build = 'dist';
-    return gulp.src(src).pipe(gulp.dest(build));
+    return gulp.src(src)
+    .pipe(plumber())
+    .pipe(gulp.dest(build));
 });
 
 /**
@@ -73,6 +79,7 @@ gulp.task('copy:img', function() {
     var src = 'src/img/*';
     var build = 'dist/img';
     return gulp.src(src)
+    .pipe(plumber())
     .pipe(gulp.dest(build));
 });
 
@@ -81,7 +88,12 @@ gulp.task('copy:img', function() {
  */
 gulp.task('template', function() {
     return gulp.src('dist/**/*.html')
-    .pipe(template())
+    .pipe(plumber())
+    .pipe(fileinclude({
+        prefix: '@@',
+        suffix:'@@',
+        basepath: '@file'
+    }))
     .pipe(gulp.dest('dist'))
 });
 
@@ -90,11 +102,13 @@ gulp.task('template', function() {
  */
 gulp.task('delsprite', function(){
     return gulp.src(['dist/img/sprite/sprite_icon_*.png'])
+    .pipe(plumber())
     .pipe(vinylPaths(del))
 })
 gulp.task('spriter', ['delsprite'], function(){
     var timestamp = +new Date();
     return gulp.src('dist/**/*.css')
+    .pipe(plumber())
     .pipe(spriter({
         spriteSheet: 'dist/img/sprite/sprite_icon_' + timestamp + '.png',
         pathToSpriteSheetFromCSS: '/img/sprite/sprite_icon_' + timestamp + '.png',
@@ -111,6 +125,7 @@ gulp.task('spriter', ['delsprite'], function(){
  */
 gulp.task('includejs', function() {
     return gulp.src('dist/**/*.js')
+    .pipe(plumber())
     .pipe(fileinclude({
       prefix: '@@',
       basepath: '@root'
@@ -123,6 +138,7 @@ gulp.task('includejs', function() {
  */
 gulp.task('includecs', function() {
     return gulp.src('dist/**/*.css')
+    .pipe(plumber())
     .pipe(fileinclude({
       prefix: '@@@',
       basepath: '@root'
@@ -136,7 +152,7 @@ gulp.task('includecs', function() {
 gulp.task('watch', function() {
     livereload.listen(35730);
     gulp.watch('src/**', function(file) {
-        runSequence('copy:watch', 'template', 'includejs', 'includecs' , 'spriter', function(){
+        runSequence('copy:watch', 'template', 'includejs', 'includecs' , function(){
             setTimeout(livereload.reload(file.path),1000);
         });
     });

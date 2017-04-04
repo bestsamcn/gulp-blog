@@ -1,22 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-@@include("include/meta.html",{"title":"首页"})
+@@include("include/meta.html",{"title":"首页"})@@
 <link rel="stylesheet" href="/home/css/main-home.css">
-<script src="/js/require.js" data-main="/home/js/main-home.js"></script>
+<script src="/js/require.js" defer data-main="/home/js/main-home.js"></script>
 </head>
 <body>
     <div class="owl-carousel" id="index-banner-vm">
         <div class="item">
             <img class="rsImg" src="http://media.3wyc.com/VideoProject/files/banner/1gnch9uj2kn9.jpg" alt="" />
         </div>
-        <div class="item">
-            <img class="rsImg" src="http://media.3wyc.com/VideoProject/files/banner/1gnch9uj2kn9.jpg" alt="" />
-        </div>
-        <div class="item">
-            <img class="rsImg" src="http://media.3wyc.com/VideoProject/files/banner/1gnch9uj2kn9.jpg" alt="" />
-        </div>
+        
     </div>
+    <script type="text/html" id="index-banner-tpl">
+        {{ each bannerList }}
+          <div class="item">
+            <img class="rsImg" src="{{ bannerUrl+$value.banner }}" alt="{{ $value.title }}" />
+        </div>
+        {{ /each }}
+    </script>
 
     <div class="container home"  id="container">
         <div class="lala"></div>
