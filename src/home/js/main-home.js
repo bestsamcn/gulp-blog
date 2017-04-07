@@ -1,8 +1,8 @@
-@@include('dist/lib/jquery/dist/jquery.js')
-@@include('dist/lib/bootstrap/dist/js/bootstrap.js')
-@@include('dist/js/arttemplate.js')
-@@include('dist/home/js/index.js')
-@@include('dist/lib/owl.carousel/dist/owl.carousel.js')
+@@include('../../lib/jquery/dist/jquery.js')
+@@include('../../lib/bootstrap/dist/js/bootstrap.js')
+@@include('../../js/arttemplate.js')
+@@include('./index.js')
+@@include('../../lib/owl.carousel/dist/owl.carousel.js')
 require(['jquery', 'evt', 'template'], function($, E, template){
     var template = template || window.template;
     $(function(){

@@ -1,6 +1,6 @@
-@@@include('dist/lib/bootstrap/dist/css/bootstrap.css')
-@@@include('dist/css/base.css')
-@@@include('dist/lib/owl.carousel/dist/assets/owl.carousel.css')
+@@include('../../lib/bootstrap/dist/css/bootstrap.css')
+@@include('../../css/base.css')
+@@include('../../lib/owl.carousel/dist/assets/owl.carousel.css')
 .home{
     width:100%;  
     height:100%;

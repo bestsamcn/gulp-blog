@@ -5,7 +5,6 @@ var gulp = require('gulp');
 var connect = require('gulp-connect');
 var open = require('gulp-open');
 var livereload = require('gulp-livereload');
-var template = require('gulp-art-include');
 var runSequence = require('run-sequence');
 var uglify = require('gulp-uglify');
 var cssmin = require('gulp-cssmin');
@@ -69,7 +68,10 @@ gulp.task('copy:build', ['clean:build'],function() {
  */
 gulp.task('template:build', function() {
     return gulp.src('dist/**/*.html')
-    .pipe(template())
+    .pipe(fileinclude({
+        prefix:'@@',
+        basepath: '@file'
+    }))
     .pipe(gulp.dest('dist'))
 });
 
@@ -176,7 +178,7 @@ gulp.task('includejs:build', function() {
     return gulp.src('dist/**/*.js')
     .pipe(fileinclude({
       prefix: '@@',
-      basepath: '@root'
+      basepath: '@file'
     }))
     .pipe(gulp.dest('dist'));
 });
@@ -188,8 +190,8 @@ gulp.task('includejs:build', function() {
 gulp.task('includecs:build', function() {
     return gulp.src('dist/**/*.css')
     .pipe(fileinclude({
-      prefix: '@@@',
-      basepath: '@root'
+      prefix: '@@',
+      basepath: '@file'
     }))
     .pipe(gulp.dest('dist'));
 });

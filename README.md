@@ -18,7 +18,7 @@
 - 生产环境打包完成后，请将文件放在网站服务器的根目录下。
 
 ## 注意
-- html模板引入前缀和后缀都是``@@``，js的引入只有前缀``@@``，css的引入是``@@@``(蛋疼)。
+- ``html,js,css``引入前缀都是``@@``，相对路径。
 - 对于一些没有声明名称的amd模块，目前只能通过修改源码实现了，例如``art-template``,需修改一下代码：  
 ```javascript
 // CommonJs
@@ -38,8 +38,7 @@ if (typeof exports === 'object' && typeof module !== 'undefined') {
 <link rel="stylesheet" href="/home/css/main-home.css">
 <script src="/js/require.js" data-main="/home/js/main-home.js"></script>
 ```
-- 因为使用fileinclude来合并了css和js，所以里面的路径都是以合并后的文件为准，例如：``dist/css/base.css``这个文件：  
-在``home/css/index.css中``引入了,其中的css路径是针对``home/css/index.css``的。
+
 ```css
 //base.css，引用img的图片应这么些写
 .lala{
