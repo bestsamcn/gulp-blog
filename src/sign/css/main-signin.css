@@ -1,15 +1,15 @@
-@@include('../../lib/bootstrap/dist/css/bootstrap.css')
-@@include('../../css/base.css')
+@@include('../../assets/libs/bootstrap/dist/css/bootstrap.css')
+@@include('../../assets/css/base.css')
 .sign{
-    
+    height:12px;
 }
 .sign .logo{
     width:34px;
     height:34px;
-    background: url(../../img/sprite/cate-hot.png) 0 0 no-repeat;
+    background: url(../../assets/img/sprite/cate-hot.png) 0 0 no-repeat;
 }
 .sign .haha{
     width:34px;
     height:34px;
-    background: url(../../img/sprite/cate-hot-on.png) 0 0 no-repeat;
+    background: url(../../assets/img/sprite/cate-hot-on.png) 0 0 no-repeat;
 }

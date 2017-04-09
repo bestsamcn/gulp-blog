@@ -8,17 +8,12 @@ var livereload = require('gulp-livereload');
 var runSequence = require('run-sequence');
 var uglify = require('gulp-uglify');
 var cssmin = require('gulp-cssmin');
-var rename = require('gulp-rename');
 var rev = require('gulp-rev');
 var revCollector = require('gulp-rev-collector');
 var del = require('del');
 var vinylPaths = require('vinyl-paths');
-var cache = require('gulp-cache');
 var imagemin = require('gulp-imagemin');
-var optimize = require('gulp-requirejs-optimize');
 var spriter = require('gulp-css-spriter');
-var amdOptimize = require('amd-optimize');
-var concat = require('gulp-concat');
 var fileinclude = require('gulp-file-include');
 var clean = require('gulp-clean');
 
@@ -52,21 +47,19 @@ gulp.task('clean:build', function(){
     return gulp.src('dist')
     .pipe(clean())
 })
-gulp.task('copy:build', ['clean:build'],function() {
-    var src = 'src/**/*';
-    var build = 'dist';
-    return gulp.src(src)
-    .pipe(gulp.dest(build));
+
+/**
+ * 复制全部
+ */
+gulp.task('copy:build', ['clean:build'], function() {
+    return gulp.src('src/**/*')
+    .pipe(gulp.dest('dist'));
 });
-
-
-
-
 
 /**
  * build编译模板
  */
-gulp.task('template:build', function() {
+gulp.task('includehtml:build', function() {
     return gulp.src('dist/**/*.html')
     .pipe(fileinclude({
         prefix:'@@',
@@ -75,21 +68,23 @@ gulp.task('template:build', function() {
     .pipe(gulp.dest('dist'))
 });
 
-
-//压缩，重命名，修改模板路径=============================================================================================================
 /**
- * 删除压缩过的js
+ * 利用fileinclude实现js模块化
  */
-gulp.task('delminjs:build', function(){
-    return gulp.src(['dist/**/*-*-*.js','!dist/lib/**/**.js'])
-    .pipe(vinylPaths(del))
-})
+gulp.task('includejs:build', function() {
+    return gulp.src(['dist/**/*.js', '!dist/assets/**/*'])
+    .pipe(fileinclude({
+      prefix: '@@',
+      basepath: '@file'
+    }))
+    .pipe(gulp.dest('dist'));
+});
 
 /**
- * 压缩混淆js,如果使用suffix的话，js不能替换src
+ * 压缩js
  */
-gulp.task('uglify:build', ['delminjs:build'], function(){
-    return gulp.src(['dist/**/*.js', '!dist/lib/**/*.js'])
+gulp.task('jsmin:build', ['includejs:build'], function(){
+    return gulp.src(['dist/**/*.js', '!dist/assets/libs/**/*.js'])
     .pipe(uglify())
     .pipe(rev())
     .pipe(gulp.dest('dist'))
@@ -100,27 +95,29 @@ gulp.task('uglify:build', ['delminjs:build'], function(){
 /**
  * 根据manifest修改模板js路径
  */
-gulp.task('jsmin:build', ['uglify:build'], function(){
-    gulp.src(['dist/rev/js/*.json', 'dist/**/*.html', '!dist/lib/**/*'])
+gulp.task('jsdir:build', ['jsmin:build'], function(){
+    gulp.src(['dist/rev/js/*.json', 'dist/**/*.html', '!dist/assets/**/*'])
     .pipe(revCollector())
     .pipe(gulp.dest('dist'))
 });
 
-
-//压缩，重名，如果使用suffix的话, 修改路径======================================================================
 /**
- * 删除压缩过的js
+ * 利用fileinclude实现css模块化
  */
-gulp.task('delmincss:build', function(){
-    return gulp.src(['dist/**/*-*-*.css','!dist/lib/**/*.css'])
-    .pipe(vinylPaths(del))
-})
+gulp.task('includecs:build', function() {
+    return gulp.src(['dist/**/*.css', '!dist/assets/**/*'])
+    .pipe(fileinclude({
+      prefix: '@@',
+      basepath: '@file'
+    }))
+    .pipe(gulp.dest('dist'));
+});
 
 /**
- * 压缩混淆js,如果使用suffix的话，js不能替换src
+ * 压缩css
  */
-gulp.task('cssminify:build', ['delmincss:build'], function(){
-    return gulp.src(['dist/**/*.css', '!dist/lib/**/*.css'])
+gulp.task('cssmin:build', ['includecs:build'], function(){
+    return gulp.src(['dist/**/*.css', '!dist/assets/libs/**/*'])
     .pipe(cssmin())
     .pipe(rev())
     .pipe(gulp.dest('dist'))
@@ -131,8 +128,8 @@ gulp.task('cssminify:build', ['delmincss:build'], function(){
 /**
  * 根据manifest修改模板js路径
  */
-gulp.task('cssmin:build', ['cssminify:build'], function(){
-    gulp.src(['dist/rev/css/*.json', 'dist/**/*.html'])
+gulp.task('cssdir:build', ['cssmin:build'], function(){
+    gulp.src(['dist/rev/css/*.json', 'dist/**/*.html', '!dist/assets/**/*'])
     .pipe(revCollector())
     .pipe(gulp.dest('dist'))
 });
@@ -146,8 +143,8 @@ gulp.task('spriter:build', function(){
     var timestamp = +new Date();
     return gulp.src('dist/**/*.css')
     .pipe(spriter({
-        spriteSheet: 'dist/img/sprite_icon_' + timestamp + '.png',
-        pathToSpriteSheetFromCSS: '/img/sprite_icon_' + timestamp + '.png',
+        spriteSheet: 'dist/assets/img/sprite_icon_' + timestamp + '.png',
+        pathToSpriteSheetFromCSS: '/assets/img/sprite_icon_' + timestamp + '.png',
         spritesmithOptions: {
             padding: 10
         }
@@ -155,54 +152,26 @@ gulp.task('spriter:build', function(){
     .pipe(gulp.dest('dist'))
 });
 
-
 /**
  * 压缩图片
  */
 gulp.task('imagemin:build', function(){
     gulp.src('dist/img/*.{jpg,jpeg,ico,png,xpng,gif}')
-    .pipe(cache(imagemin({
+    .pipe(imagemin({
         optimizationLevel:5,
         progressive:true,
         interlaced:true,
         multipass:true
-    })))
+    }))
     .pipe(gulp.dest('dist/img'))
-});
-
-
-/**
- * 利用fileinclude实现js模块化
- */
-gulp.task('includejs:build', function() {
-    return gulp.src('dist/**/*.js')
-    .pipe(fileinclude({
-      prefix: '@@',
-      basepath: '@file'
-    }))
-    .pipe(gulp.dest('dist'));
-});
-
-
-/**
- * 利用fileinclude实现css模块化
- */
-gulp.task('includecs:build', function() {
-    return gulp.src('dist/**/*.css')
-    .pipe(fileinclude({
-      prefix: '@@',
-      basepath: '@file'
-    }))
-    .pipe(gulp.dest('dist'));
 });
 
 /**
  * 删除所有非main开头的css和js
  */
-
 gulp.task('delrubbish', function(){
     //删除文件夹可以使用dist/folder
-    return gulp.src(['dist/**/*.{js,css}','dist/{css,include,rev,lib}', 'dist/img/sprite', '!dist/**/{main-*,require}-*.{js,css}'])
+    return gulp.src(['dist/**/*.{js,css}','dist/assets/{css ,rev, lib, js}', 'dist/assets/img/sprite', '!dist/**/main-*-*.{js,css}'])
     .pipe(vinylPaths(del))
 })
 

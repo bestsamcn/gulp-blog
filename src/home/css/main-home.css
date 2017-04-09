@@ -1,6 +1,6 @@
-@@include('../../lib/bootstrap/dist/css/bootstrap.css')
-@@include('../../css/base.css')
-@@include('../../lib/owl.carousel/dist/assets/owl.carousel.css')
+@@include('../../assets/libs/bootstrap/dist/css/bootstrap.css')
+@@include('../../assets/css/base.css')
+@@include('../../assets/libs/owl.carousel/dist/assets/owl.carousel.css')
 .home{
     width:100%;  
     height:100%;
@@ -9,5 +9,5 @@
 .home .hehe{
     width:34px;
     height:34px;
-    background: url(../../img/sprite/cate-other-on.png) 0 0 no-repeat;
+    background: url(../../assets/img/sprite/cate-other-on.png) 0 0 no-repeat;
 }

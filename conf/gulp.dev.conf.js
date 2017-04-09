@@ -8,20 +8,21 @@ var livereload = require('gulp-livereload');
 var runSequence = require('run-sequence');
 var uglify = require('gulp-uglify');
 var cssmin = require('gulp-cssmin');
-var rename = require('gulp-rename');
 var rev = require('gulp-rev');
 var revCollector = require('gulp-rev-collector');
 var del = require('del');
 var vinylPaths = require('vinyl-paths');
 var cache = require('gulp-cache');
 var imagemin = require('gulp-imagemin');
-var optimize = require('gulp-requirejs-optimize');
 var spriter = require('gulp-css-spriter');
-var amdOptimize = require('amd-optimize');
-var concat = require('gulp-concat');
 var fileinclude = require('gulp-file-include');
 var clean = require('gulp-clean');
 var plumber = require('gulp-plumber');
+
+var changed = require('gulp-changed');
+var cached = require('gulp-cached');
+var remember = require('gulp-cached');
+var debug = require('gulp-debug');
 
 /**
  * 服务器
@@ -47,7 +48,7 @@ gulp.task('open', function() {
 });
 
 /**
- * 复制全部
+ * 清理dist
  */
 gulp.task('clean', function(){
     return gulp.src('dist')
@@ -55,93 +56,65 @@ gulp.task('clean', function(){
     .pipe(clean())
 })
 
-gulp.task('copy:all', ['clean'], function() {
-    var src = 'src/**/*';
-    var build = 'dist';
-    return gulp.src(src)
+/**
+ * 复制到dist
+ */
+gulp.task('copy', function() {
+    return gulp.src('src/**/*')
     .pipe(plumber())
-    .pipe(gulp.dest(build));
+    .pipe(changed('dist'))
+    .pipe(debug({title:'复制：'}))
+    .pipe(gulp.dest('dist'))
 });
 
-gulp.task('copy:watch', function() {
-    var src = 'src/**/*';
-    var build = 'dist';
-    return gulp.src(src)
-    .pipe(plumber())
-    .pipe(gulp.dest(build));
-});
 
 /**
- * 复制图片
+ * 编译html模板
  */
-gulp.task('copy:img', function() {
-    var src = 'src/img/*';
-    var build = 'dist/img';
-    return gulp.src(src)
+gulp.task('includehtml', function() {
+    return gulp.src(['dist/**/*.html', '!dist/assets/libs/**/*.html'])
     .pipe(plumber())
-    .pipe(gulp.dest(build));
-});
-
-/**
- * 编译模板
- */
-gulp.task('template', function() {
-    return gulp.src('dist/**/*.html')
-    .pipe(plumber())
+    .pipe(cached('includehtml'))
     .pipe(fileinclude({
         prefix: '@@',
         basepath: '@file'
     }))
+    .pipe(debug({title:'编译HTML：'}))
     .pipe(gulp.dest('dist'))
-});
-
-/**
- * 雪碧图，拷贝图片-压缩css-雪碧图
- */
-gulp.task('delsprite', function(){
-    return gulp.src(['dist/img/sprite/sprite_icon_*.png'])
-    .pipe(plumber())
-    .pipe(vinylPaths(del))
-})
-gulp.task('spriter', ['delsprite'], function(){
-    var timestamp = +new Date();
-    return gulp.src('dist/**/*.css')
-    .pipe(plumber())
-    .pipe(spriter({
-        spriteSheet: 'dist/img/sprite/sprite_icon_' + timestamp + '.png',
-        pathToSpriteSheetFromCSS: '/img/sprite/sprite_icon_' + timestamp + '.png',
-        spritesmithOptions: {
-            padding: 10
-        }
-    }))
-    .pipe(gulp.dest('dist'))
+    .pipe(remember('includehtml'))
 });
 
 
 /**
- * 利用fileinclude实现js模块化
+ * 引入js
  */
 gulp.task('includejs', function() {
-    return gulp.src('dist/**/*.js')
+    return gulp.src(['dist/**/*.js','!dist/assets/libs/**/*.js'])
     .pipe(plumber())
+    .pipe(cached('includejs'))
     .pipe(fileinclude({
       prefix: '@@',
       basepath: '@file'
     }))
-    .pipe(gulp.dest('dist'));
+    .pipe(debug({title:'编译JS：'}))
+    .pipe(gulp.dest('dist'))
+    .pipe(remember('includejs'))
 });
 
 /**
- * 利用fileinclude实现css模块化
+ * 引入css
  */
-gulp.task('includecs', function() {
-    return gulp.src('dist/**/*.css')
+gulp.task('includecss', function() {
+    return gulp.src(['dist/**/*.css','!dist/assets/libs/**/*.css'])
     .pipe(plumber())
+    .pipe(cached('includecss'))
     .pipe(fileinclude({
       prefix: '@@',
       basepath: '@file'
     }))
-    .pipe(gulp.dest('dist'));
+    .pipe(debug({title:'编译CSS：'}))
+    .pipe(gulp.dest('dist'))
+    .pipe(remember('includecss'))
 });
 
 /**
@@ -150,7 +123,7 @@ gulp.task('includecs', function() {
 gulp.task('watch', function() {
     livereload.listen(35730);
     gulp.watch('src/**', function(file) {
-        runSequence('copy:watch', 'template', 'includejs', 'includecs' , function(){
+        runSequence('copy', 'includehtml', 'includejs', 'includecss' , function(){
             setTimeout(livereload.reload(file.path),1000);
         });
     });

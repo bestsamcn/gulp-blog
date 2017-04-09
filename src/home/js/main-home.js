@@ -1,10 +1,11 @@
-@@include('../../lib/jquery/dist/jquery.js')
-@@include('../../lib/bootstrap/dist/js/bootstrap.js')
-@@include('../../js/arttemplate.js')
+@@include('../../assets/libs/jquery/dist/jquery.js')
+@@include('../../assets/libs/owl.carousel/dist/owl.carousel.js')
+@@include('../../assets/libs/bootstrap/dist/js/bootstrap.js')
+@@include('../../assets/js/arttemplate.js')
 @@include('./index.js')
-@@include('../../lib/owl.carousel/dist/owl.carousel.js')
-require(['jquery', 'evt', 'template'], function($, E, template){
+;(function($, template, E){
     var template = template || window.template;
+    var $ = $ || window.jquery;
     $(function(){
         $.ajax({
             type:'get',
@@ -33,4 +34,5 @@ require(['jquery', 'evt', 'template'], function($, E, template){
     E(a,'click', function(){
         console.log(this)
     })
-});
+})(jQuery, template, evt)
+    

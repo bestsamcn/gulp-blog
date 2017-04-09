@@ -1,6 +1,7 @@
-@@include('../../lib/jquery/dist/jquery.min.js')
-@@include('../../lib/bootstrap/dist/js/bootstrap.min.js')
+@@include('../../assets/libs/jquery/dist/jquery.js');
+@@include('../../assets/libs/bootstrap/dist/js/bootstrap.js')
 @@include('./index.js')
-require(['jquery', 'plus'], function($, P){
-    console.log(P(2,12));
-})
+;(function(plus){
+	var plus = plus || window.plus;
+	console.log(plus(1,55));
+})(plus);
