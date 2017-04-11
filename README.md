@@ -1,5 +1,5 @@
 # gulp-config
-基于``gulp``, ``gulp-file-include``的多页面脚手架。
+基于``gulp``, ``gulp-file-include``等插件的多页面传统模块化脚手架。
 
 ## 功能
 ### ``gulp dev``

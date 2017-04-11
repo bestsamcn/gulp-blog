@@ -171,7 +171,16 @@ gulp.task('imagemin:build', function(){
  */
 gulp.task('delrubbish', function(){
     //删除文件夹可以使用dist/folder
-    return gulp.src(['dist/**/*.{js,css}','dist/assets/{css ,rev, lib, js}', 'dist/assets/img/sprite', '!dist/**/main-*-*.{js,css}'])
+    return gulp.src([
+        'dist/**/*.{js,css}', 
+        'dist/assets/css', 
+        'dist/assets/js', 
+        'dist/assets/libs', 
+        'dist/include', 
+        'dist/rev', 
+        'dist/assets/img/sprite',
+        '!dist/**/main-*-*.{js,css}'
+        ])
     .pipe(vinylPaths(del))
 })
 
