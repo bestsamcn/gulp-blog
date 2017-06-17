@@ -18,8 +18,8 @@
 
 ## 任务
 - 开发环境任务文件在``conf/gulp.dev.conf.js``，生产环境任务文件在``conf/gulp.prod.conf.js``
-- ``gulp dev``是开发环境下启动任务，没有做任何的压缩和打包操作，方便调试。
-- ``gulp build`` 这个任务会依据所有``main-*.js``及其依赖进行打包，这个操作需要用到``conf/gulp.rjs.conf.js``配置。如下:
+- ``npm run dev``是开发环境下启动任务，没有做任何的压缩和打包操作，方便调试。
+- ``npm run build`` 这个任务会依据所有``main-*.js``及其依赖进行打包，这个操作需要用到``conf/gulp.rjs.conf.js``配置需要用到的模块。如下:
 ```javascript
 module.exports = {
     baseUrl:'./dist',
@@ -88,7 +88,7 @@ module.exports = {
 2.  假设你已经全局安装了node,gulp,bower等cli，那么执行以下命令行：
 ```bash
 git clone -b dev https://github.com/bestsamcn/gulp-config.git
-cd cmd
+cd cms
 npm install
 bower install
 npm run dev
@@ -96,5 +96,6 @@ npm run build
 ```
 
 ## 预览
-- 该项目已开始实际应用。
+- 该配置已开始实际应用。
 - [请点击我](http://gulp.bestsamcn.me/)预览
+
