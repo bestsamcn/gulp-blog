@@ -95,3 +95,6 @@ npm run dev
 npm run build
 ```
 
+## 预览
+- 该项目已开始实际应用。
+- [请点击我](http://gulp.bestsamcn.me/)预览
