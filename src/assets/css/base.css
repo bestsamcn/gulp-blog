@@ -20,6 +20,9 @@ html,body,ul,img,p,h1,h2,h3,h4,h5,h6,li{
     margin:0;
     padding:0;
 }
+body{
+    background: #f6f6f6;
+}
 ul,li{
 
 }
@@ -279,8 +282,6 @@ h4{
 /* 同级路由切换 */
 .fade-enter, .fade-leave{
     opacity: 0;
-
-
 }
 .fade-enter-active, .fade-leave-active{
     transition: opacity cubic-bezier(0.36, 0.66, 0.04, 1) .3s;
