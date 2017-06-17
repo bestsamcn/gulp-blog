@@ -66,6 +66,22 @@ body{
     border: none;
     cursor: pointer;
 }
+.sign .sign-form button:hover{
+    height: 44px;
+    width:100%;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    background-color: rgba(86, 195, 244,1);
+    border-radius: 30px;
+    color: #FFFFFF;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+}
 .sign .logo{
     width:34px;
     height:34px;
