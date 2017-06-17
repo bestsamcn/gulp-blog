@@ -88,7 +88,7 @@ module.exports = {
 2.  假设你已经全局安装了node,gulp,bower等cli，那么执行以下命令行：
 ```bash
 git clone -b dev https://github.com/bestsamcn/gulp-config.git
-cd cms
+cd gulp-config
 npm install
 bower install
 npm run dev
