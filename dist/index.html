@@ -1,48 +1,117 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<title>首页</title>
-<meta name="description" content="">
-<meta name="keywords" content="">
-
-<link rel="stylesheet" href="/home/css/main-home.css">
-</head>
-<body>
-    <div class="owl-carousel" id="index-banner-vm">
-        <div class="item">
-            <img class="rsImg" src="http://media.3wyc.com/VideoProject/files/banner/1gnch9uj2kn9.jpg" alt="" />
-        </div>
-        
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>首页</title><meta name="description" content="gulp-blog"><meta name="keywords" content="gulp-blog"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><link rel="stylesheet" href="/assets/libs/bootstrap/dist/css/bootstrap.min.css"><link rel="stylesheet" href="/assets/libs/font-awesome/css/font-awesome.min.css"><link rel="stylesheet" href="/assets/css/base-99d7f6e442.css"><link rel="stylesheet" href="/assets/css/footer-fa80506918.css"><link rel="stylesheet" href="/assets/css/header-6233fb8aa8.css"><link rel="stylesheet" href="/home/css/main-home-d409c49e94.css"></head><body><div class="back-top"><a href="javascript:;" class="go-top-btn" id="go-top"><span class="fa fa-arrow-up"></span></a></div><div class="header"><div class="logo color-green" @click="$router.push({name:'Home'})">B <span class="color-black font-20">est</span></div><div class="nav-list sm-hide"><a href="/">首页</a> <a>搜索</a> <a>关于</a> <a>留言</a> <a href="/sign">登录</a></div><div class="menu-btn md-hide"><a href="javascript:;" @click="setToggleMenu()" class="icon-reorder" :class="{'on':iShowMenu}"></a></div></div><div class="container home" id="container"><div class="main"><div class="wrapper"><div class="left-cont"><div class="article-list" id="index-article-vm"></div><div class="padding-20-0 bg-white"><a id="more-btn" href="javascript:;" class="more-btn">More</a><p class="text-center color-gray padding-20-0" id="more-tit" style="display:none">没有更多了</p></div></div><div class="right-bar sm-hide" id="sidebar"><div class="moveup home-category"><div class="title color-black">分类</div><div class="cont" id="index-category-vm"></div></div><div class="moveup article-rank margin-top-30"><div class="tab-list" id="rank-nav"><a href="javascript:;" class="active">最火</a> <a href="javascript:;">最新</a> <a href="javascript:;">评论</a> <a href="javascript:;">阅读</a></div><div class="tab-cont" id="index-rank-vm"></div></div><div class="moveup tags"><div class="title color-black">标签</div><div class="cont"><div class="wrapper" id="index-tag-vm"></div></div></div></div></div></div></div><div class="footer margin-top-20"><div class="webmap"><a>首页</a> <a>搜索</a> <a>关于</a> <a>留言</a></div><div class="copyright">copyright@2017 bestsamcn</div></div></body></html><script type="text/html" id="index-banner-tpl">{{ each bannerList }}
+      <div class="item">
+        <img class="rsImg" src="{{ bannerUrl+$value.banner }}" alt="{{ $value.title }}" />
     </div>
-    <script type="text/html" id="index-banner-tpl">
-        {{ each bannerList }}
-          <div class="item">
-            <img class="rsImg" src="{{ bannerUrl+$value.banner }}" alt="{{ $value.title }}" />
-        </div>
-        {{ /each }}
-    </script>
-
-    <div class="container home"  id="container">
-        <div class="lala"></div>
-        <div class="hehe"></div>
-        <div class="row">
-            <ul class="list-group">
-              <li class="list-group-item list-group-item-success">Dapibus ac facilisis in</li>
-              <li class="list-group-item list-group-item-info">Cras sit amet nibh libero</li>
-              <li class="list-group-item list-group-item-warning">Porta ac consectetur ac</li>
-              <li class="list-group-item list-group-item-danger">Vestibulum at eros</li>
-            </ul>
-            <div class="list-group">
-              <a href="#" class="list-group-item list-group-item-success">Dapibus ac facilisis in</a>
-              <a href="#" class="list-group-item list-group-item-info">Cras sit amet nibh libero</a>
-              <a href="#" class="list-group-item list-group-item-warning">Porta ac consectetur ac</a>
-              <a href="#" class="list-group-item list-group-item-danger">Vestibulum at eros</a>
+    {{ /each }}</script><script type="text/html" id="index-article-tpl">{{each articleList as item index}}
+    <div class="{{(!!item.poster && !isMobile) ? 'item has-right' : 'item'}}" onclick="window.location.href='http://blog.bestsamcn.me/article/detail/{{item._id}}'">
+        <div class="left">
+            <div class="title">
+                <h4 class="color-black">{{item.title}}</h4>
+                <div class="info margin-top-10">
+                    <span class="fa fa-comment">{{item.commentNum | transNum }} Comments</span>
+                    <span class="fa fa-eye">{{item.readNum | transNum}} Views</span>
+                    <span class="fa fa-tag">{{item.tag ? item.tag.name : 'null'}}</span>
+                    <a href="javascript:;" class="{{item.isLiked ? 'fa fa-heart active' : 'fa fa-heart'}}">{{item.likeNum | transNum}}</a>
+                </div>
+            </div>
+            <p class="preview">
+                摘要: {{item.previewText | textEllipsis:50}}
+            </p>
+            <div class="bottom">
+                <a href="javascript:;" class="more">{{item.category ? item.category.name :'我可能被删了'}}</a>
+                <a class="fa fa-calendar more no-border color-gray">{{item.createTime | dateFormat:'yyyy-MM-dd'}}</a>
+                {{if !!item.lastEditTime}}
+                <a class="fa fa-edit more no-border color-gray">{{item.lastEditTime | dateFormat:'yyyy-MM-dd'}}</a>
+                {{/if}}
             </div>
         </div>
-        <div>ddd</div>
+        <!-- <div class="right" v-if="!!item.poster && isMobile"> -->
+        {{if (!!item.poster && !isMobile)}}
+        <div class="right">
+            <div class="img">
+                <img src="{{CONFIG.POSTER_URL}}/{{item.poster}}">
+            </div>
+        </div>
+        {{/if}}
     </div>
-</body>
-</html>
-<script src="/home/js/main-home.js"></script>
+    {{/each}}</script><script type="text/html" id="index-category-tpl">{{each categoryList as item index}}
+    <a href="javascript:;">
+        <span class="name">{{(item._id && item._id.name)}}</span>
+        <span class="number">({{item.total || 0}})</span>
+    </a>
+    {{/each}}</script><script type="text/html" id="index-rank-tpl"><div class="popular animated bounceInRight" style="display: block">
+        {{each hotList as item index}}
+        <a href="http://blog.bestsamcn.me/article/detail/{{item._id}}">
+            <div class="img">
+                <div class="img-box">
+                    {{if !!item.poster}}
+                    <img src="{{CONFIG.POSTER_URL}}/{{item.poster}}">
+                    {{else}}
+                    <span>{{item.title | textEllipsis:2}}</span>
+                    {{/if}}
+                </div>
+            </div>
+            <div class="text">
+                <h4>{{item.title}}</h4>
+                <p><i class="fa fa-calendar"></i>{{item.createTime | dateFormat:'yyyy-MM-dd'}}</p>
+            </div>
+        </a>
+        {{/each}}
+    </div>
+    <div class="popular animated bounceOutLeft" style="display: none">
+        {{each latestList as item index}}
+        <a href="http://blog.bestsamcn.me/article/detail/{{item._id}}">
+            <div class="img">
+                <div class="img-box">
+                    {{if !!item.poster}}
+                    <img src="{{CONFIG.POSTER_URL}}/{{item.poster}}">
+                    {{else}}
+                    <span>{{item.title | textEllipsis:2}}</span>
+                    {{/if}}
+                </div>
+            </div>
+            <div class="text">
+                <h4>{{item.title}}</h4>
+                <p><i class="fa fa-calendar"></i>{{item.createTime | dateFormat:'yyyy-MM-dd'}}</p>
+            </div>
+        </a>
+        {{/each}}
+    </div>
+    <div class="popular animated bounceOutLeft" style="display: none">
+        {{each commentList as item index}}
+        <a href="http://blog.bestsamcn.me/article/detail/{{item._id}}">
+            <div class="img">
+                <div class="img-box name">
+                    <span>{{item.createLog.createName | textEllipsis:3}}</span>
+                </div>
+            </div>
+            <div class="text">
+                <h4>RE:{{item.parentComent ? item.parentComment.content : item.article.title}}</h4>
+                <p><i class="fa fa-calendar"></i>{{item.createTime | dateFormat:'yyyy-MM-dd'}}</p>
+            </div>
+        </a>
+        {{/each}}
+    </div>
+    <div class="popular animated bounceOutLeft" style="display: none">
+        {{each readList as item index}}
+        <a href="http://blog.bestsamcn.me/article/detail/{{item._id}}">
+            <div class="img">
+                <div class="img-box">
+                    {{if !!item.poster}}
+                    <img src="{{CONFIG.POSTER_URL}}/{{item.poster}}">
+                    {{else}}
+                    <span>{{item.title | textEllipsis:2}}</span>
+                    {{/if}}
+                </div>
+            </div>
+            <div class="text">
+                <h4>{{item.title}}</h4>
+                <p><i class="fa fa-calendar"></i>{{item.createTime | dateFormat:'yyyy-MM-dd'}}</p>
+            </div>
+        </a>
+        {{/each}}
+    </div></script><script type="text/html" id="index-tag-tpl">{{each tagList as item index}}
+    <a href="javascript:;" class="tag-item">
+        <span>{{item._id && item._id.name}}</span>
+    </a>
+    {{/each}}</script><script src="/assets/libs/require.js" defer data-main="/home/js/main-home-cceecb273d.js"></script>

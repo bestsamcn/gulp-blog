@@ -1,7 +1,70 @@
-@@include('../../assets/libs/bootstrap/dist/css/bootstrap.css')
-@@include('../../assets/css/base.css')
+
+html,body{
+	width:100%;
+	height:100%;
+}
+body{
+	background: url(../../assets/img/login-bg.jpg) no-repeat center;
+}
 .sign{
-    height:12px;
+	height:100%;
+	width:100%;
+	position: relative;
+}
+.sign .sign-form{
+	width: 500px;
+	position: absolute;
+	top:50%;
+	left:50%;
+	margin-top:-110px;
+	margin-left:-250px;
+}
+.sign .sign-form .form-group{
+	width:100%;
+	position: relative;
+}
+.sign .sign-form input:focus{
+	border:2px solid #56C3F4 !important;
+}
+.sign .sign-form .form-group .fa{
+	margin: 0 0 0 20px;
+    position: absolute;
+    left:0;
+    top:0;
+    height:100%;
+    line-height: 48px;
+    font-size: 20px;
+    color:#fff;
+}
+.sign .sign-form .form-control{
+	display: block;
+    width: 100%;
+    height: 48px;
+    padding: 6px 20px 6px 54px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #FFFFFF;
+    border: 2px solid transparent;
+    border-radius: 30px;
+    background-color: rgba(255, 255, 255,0.3);
+    margin: 10px 0;
+}
+.sign .sign-form input::-webkit-input-placeholder{
+	color:#fff !important;
+}
+.sign .sign-form button{
+	height: 44px;
+	width:100%;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    background-color: rgba(86, 195, 244,1);
+    border-radius: 30px;
+    color: #FFFFFF;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: none;
+    cursor: pointer;
 }
 .sign .logo{
     width:34px;

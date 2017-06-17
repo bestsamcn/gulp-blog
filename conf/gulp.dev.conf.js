@@ -6,23 +6,14 @@ var connect = require('gulp-connect');
 var open = require('gulp-open');
 var livereload = require('gulp-livereload');
 var runSequence = require('run-sequence');
-var uglify = require('gulp-uglify');
-var cssmin = require('gulp-cssmin');
-var rev = require('gulp-rev');
-var revCollector = require('gulp-rev-collector');
-var del = require('del');
-var vinylPaths = require('vinyl-paths');
-var cache = require('gulp-cache');
-var imagemin = require('gulp-imagemin');
-var spriter = require('gulp-css-spriter');
 var fileinclude = require('gulp-file-include');
 var clean = require('gulp-clean');
 var plumber = require('gulp-plumber');
-
 var changed = require('gulp-changed');
-var cached = require('gulp-cached');
-var remember = require('gulp-cached');
 var debug = require('gulp-debug');
+var remember = require('gulp-remember');
+var cached = require('gulp-cached');
+
 
 /**
  * 服务器
@@ -48,7 +39,7 @@ gulp.task('open', function() {
 });
 
 /**
- * 清理dist
+ * 清理dist文件夹
  */
 gulp.task('clean', function(){
     return gulp.src('dist')
@@ -57,74 +48,61 @@ gulp.task('clean', function(){
 })
 
 /**
- * 复制到dist
+ * 增量：复制
  */
 gulp.task('copy', function() {
-    return gulp.src('src/**/*')
+    return gulp.src(['src/**', '!src/include', '!src/include/*'])
     .pipe(plumber())
     .pipe(changed('dist'))
-    .pipe(debug({title:'复制：'}))
+    .pipe(debug({title:'复制:'}))
     .pipe(gulp.dest('dist'))
 });
 
 
 /**
- * 编译html模板
+ * 增量：编译模板
  */
-gulp.task('includehtml', function() {
-    return gulp.src(['dist/**/*.html', '!dist/assets/libs/**/*.html'])
+gulp.task('includefile', function() {
+    return gulp.src(['src/**/*.{html, tpl}', '!src/include', '!src/include/*'])
     .pipe(plumber())
-    .pipe(cached('includehtml'))
+    // .pipe(cached('includefile'))
     .pipe(fileinclude({
         prefix: '@@',
         basepath: '@file'
     }))
-    .pipe(debug({title:'编译HTML：'}))
+    .pipe(debug({title:'编译HTML:'}))
     .pipe(gulp.dest('dist'))
-    .pipe(remember('includehtml'))
+    .pipe(remember('includefile'))
 });
 
 
 /**
- * 引入js
+ * 增量：利用fileinclude实现css模块化
  */
-gulp.task('includejs', function() {
-    return gulp.src(['dist/**/*.js','!dist/assets/libs/**/*.js'])
+gulp.task('includecs', function() {
+    return gulp.src(['src/**/*.css'])
     .pipe(plumber())
-    .pipe(cached('includejs'))
+    // .pipe(cached('includecs'))
     .pipe(fileinclude({
       prefix: '@@',
       basepath: '@file'
     }))
-    .pipe(debug({title:'编译JS：'}))
+    .pipe(debug({title:'编译CSS:'}))
     .pipe(gulp.dest('dist'))
-    .pipe(remember('includejs'))
+    .pipe(remember('includecs'))
 });
 
 /**
- * 引入css
- */
-gulp.task('includecss', function() {
-    return gulp.src(['dist/**/*.css','!dist/assets/libs/**/*.css'])
-    .pipe(plumber())
-    .pipe(cached('includecss'))
-    .pipe(fileinclude({
-      prefix: '@@',
-      basepath: '@file'
-    }))
-    .pipe(debug({title:'编译CSS：'}))
-    .pipe(gulp.dest('dist'))
-    .pipe(remember('includecss'))
-});
-
-/**
- * 监听
+ * 增量监听
  */
 gulp.task('watch', function() {
     livereload.listen(35730);
     gulp.watch('src/**', function(file) {
-        runSequence('copy', 'includehtml', 'includejs', 'includecss' , function(){
-            setTimeout(livereload.reload(file.path),1000);
-        });
+        var gulp = require('gulp')
+        var runSequence = require('run-sequence').use(gulp);
+        runSequence('copy', 'includefile', 'includecs');
+        setTimeout(function(){
+            livereload.reload(file.path);
+        }, 1000);
     });
 });

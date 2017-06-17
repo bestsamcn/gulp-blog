@@ -1,0 +1,119 @@
+.back-top{
+
+}
+.go-top-btn{
+    width: 50px;
+    position: fixed;
+    right: 20px;
+    opacity: 0;
+    visibility: hidden;
+    bottom: -100px;
+    z-index: 800;
+    height: 50px;
+    color: #fff;
+    text-decoration: none;
+    line-height: 50px;
+    transition: all .3s ease-in-out;
+    -webkit-transition: all .3s ease-in-out;
+    -moz-transition: all .3s ease-in-out;
+    font-size: 20px;
+    display: block;
+    border-radius: 5px;
+    background: rgba(17,164,255,.8);
+    background: #11a4ff\9;
+    box-shadow: 0 1px 3px rgba(17,164,255,.12),0 1px 2px rgba(17,164,255,.24);
+    transform: all .3s ease-in-out;
+    -webkit-transform: all .3s ease-in-out;
+    -moz-transform: all .3s ease-in-out;
+    text-align: center;
+}
+.go-top-btn.show{
+    bottom: 40px;
+    opacity: 1;
+    visibility: visible;
+}
+.go-top-btn span{
+    speak: none;
+    color: #fff;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+}
+.go-top-btn span:before{
+     content: "\f062";
+}
+.go-top-btn:hover {
+    box-shadow: 0 3px 6px rgba(17, 164, 255, .12), 0 1px 2px rgba(17, 164, 255, .24);
+    -webkit-box-shadow: 0 3px 6px rgba(17, 164, 255, .12), 0 1px 2px rgba(17, 164, 255, .24);
+    -moz-box-shadow: 0 3px 6px rgba(17, 164, 255, .12), 0 1px 2px rgba(17, 164, 255, .24)
+}
+@media screen and (min-width:768px){
+    .go-top-btn:hover span {
+        position: relative;
+        -webkit-animation: st 0.9s linear infinite;
+        -moz-animation: st 0.9s linear infinite;
+        animation: st 0.9s linear infinite
+    }
+}
+
+@keyframes st {
+    0% {
+        opacity: 0;
+        visibility: hidden;
+        filter: alpha(opacity=0);
+        bottom: -20px
+    }
+    50% {
+        opacity: 1;
+        visibility: visible;
+        filter: alpha(opacity=100);
+        bottom: 20%
+    }
+    100% {
+        opacity: 0;
+        visibility: visible;
+        filter: alpha(opacity=0);
+        bottom: 50%
+    }
+}
+@-webkit-keyframes st {
+    0% {
+        opacity: 0;
+        visibility: hidden;
+        bottom: -20px;
+    }
+    50% {
+        opacity: 1;
+        visibility: visible;
+        bottom: 20%
+    }
+    100% {
+        opacity: 0;
+        visibility: hidden;
+        bottom: 50%
+    }
+}
+@-moz-keyframes st {
+    0% {
+        opacity: 0;
+        visibility: hidden;
+        bottom: -20px;
+    }
+    50% {
+        opacity: 1;
+        visibility: visible;
+        bottom: 20%
+    }
+    100% {
+        opacity: 0;
+        visibility: hidden;
+        bottom: 50%
+    }
+}
+@media screen and (max-width: 768px) {
+    .go-top-btn {
+        -webkit-transform: scale(.7);
+        transform: scale(.7);
+        -moz-transform: scale(.7)
+    }
+}

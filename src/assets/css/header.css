@@ -1,0 +1,67 @@
+.header{
+    width:100%;
+    background:#fff;
+    position: fixed;
+    left:0;
+    top:0;
+    border-bottom:1px solid #f6f6f6;
+    display: -webkit-flex;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 56px;
+    z-index: 1001;
+
+}
+.header .logo{
+    font-size: 30px;
+    font-weight: bold;
+    line-height: 49px;
+    height:49px;
+    cursor: pointer;
+    padding-left:10px;
+    flex:1;
+    text-align: left;
+}
+.header .nav-list{
+    overflow: hidden;
+    height:100%;
+    display: -webkit-flex;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex:6;
+    padding-right: 10px;
+}
+
+.header .nav-list a{
+    margin-left:20px;
+    display: block;
+    position: relative;
+    height:100%;
+    padding:0 20px;
+    display: block;
+    color:#2B4356;
+    line-height: 56px;
+    transition: all cubic-bezier(0.36, 0.66, 0.04, 1) 300ms;
+    -webkit-transition: all cubic-bezier(0.36, 0.66, 0.04, 1) 300ms;
+
+}
+.header .nav-list a.active{
+    background: #1ABC9C;
+}
+.header .menu-btn{
+
+}
+.header .menu-btn a{
+    display: block;
+    font-size: 20px;
+    padding:10px;
+    color:#2B4356;
+    transition:all cubic-bezier(.36,.66,.04,1) .3s;
+    -webkit-transition:all cubic-bezier(.36,.66,.04,1) .3s;
+}
+.header .menu-btn a.on{
+    transform:rotate(90deg);
+    -webkit-transform:rotate(90deg)
+}
