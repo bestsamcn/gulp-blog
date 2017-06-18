@@ -1,7 +1,8 @@
 module.exports = {
 	baseUrl:'./dist',
     paths:{
-        vendor:'assets/js/vendor',
+        // vendor:'assets/js/vendor',
+        vendor:'empty:',
         template:'assets/libs/arttemplate',
         CONFIG:'assets/js/config',
         API:'assets/js/service',

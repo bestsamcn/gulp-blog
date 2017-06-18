@@ -203,7 +203,7 @@ gulp.task('htmlmin', function () {
 gulp.task('delrubbish', function(){
     //删除文件夹可以使用dist/folder
     return gulp.src(['dist/{rev,include}', 'dist/assets/img/sprite', 'dist/assets/css/**/*.css', 'dist/**/js/*.js', 
-        'dist/assets/js', 'dist/**/css/*.css', '!dist/assets/css/**/*-*.css', '!dist/assets/libs/**/*.css', '!dist/**/main-*-*.js', '!dist/libs/**/*','!dist/**/main-*-*.css'])
+        'dist/assets/js/*.js', 'dist/**/css/*.css', '!dist/assets/css/**/*-*.css', '!dist/assets/libs/**/*.css', '!dist/assets/js/vendor.js', '!dist/**/main-*-*.js', '!dist/libs/**/*','!dist/**/main-*-*.css'])
     .pipe(vinylPaths(del))
 })
 
