@@ -1,6 +1,6 @@
 # gulp-config
 基于``gulp``, ``gulp-file-include``, ``gulp-requirejs-optimize``等的多页面脚手架。
-这个分支是使用了rjs作为打包方式，打包配置文件在``conf/gulp.rjs.conf.js``中， 主要优势在于实现了公共模块与业务模块分离，最大限度优化性能。
+这个分支是使用了rjs作为打包方式，打包配置文件在``conf/gulp.rjs.conf.js``中， 实现了公共模块与业务模块分离，最大限度优化性能。
 
 ## 功能
 ### ``npm run dev``开发环境任务
