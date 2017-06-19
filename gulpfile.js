@@ -10,5 +10,5 @@ gulp.task('dev', function(cb) {
 });
 
 gulp.task('build', function(){
-    runSequence('copy:build', 'includefile:build', 'includecs:build', 'spriter:build', 'jsdir:build', 'cssdir:build', 'htmlmin', 'imagemin:build', 'delrubbish', 'server:build', 'open:build');
+    runSequence('copy:build', 'includefile:build', 'includecs:build', 'spriter:build', 'jsdir:build', 'rjs:vendor:build',  'cssdir:build', 'htmlmin', 'libsmin', 'imagemin:build', 'delrubbish', 'server:build', 'open:build');
 })

@@ -372,3 +372,4 @@ h4{
 
 @@include('../libs/animate.css/animate.min.css')
 @@include('./goTop.css')
+@@include('./loading.css')

@@ -6,51 +6,56 @@ require.config({
     }
 });
 define(['vendor', 'CONFIG'], function(vendor, CONFIG){
-	var $ = vendor.$;
-	var Q = vendor.q;
-	var $$ = vendor.$$;
-	$.support.cors = true
-	var $http = function(type, url, params, isToast){
-		var defer = Q.defer();
-		var _obj = {
-			type:type || 'get',
-			dataTypa:'json',
-			data:params,
-			xhrField:{
-				withGredentials:true
-			},
-			url:CONFIG.ROOT_API+url,
-			beforeSend:function(){
-				isToast && console.log('isToast')
-			},
-			success:function(res){
-				if(res.retCode !== 0){
-					return (isToast && $$.alertInfo(res.msg || '未知错误'));
-				}
-				defer.resolve(res);
-			},
-			error:function(){
-				$$.alertInfo('异常');
-			}
-		}
-		$.ajax(_obj);
-		return defer.promise;
-	}
+    var $ = vendor.$;
+    var Q = vendor.q;
+    var $$ = vendor.$$;
+    $.support.cors = true;
+    var $loading = $('#loading');
+    var $http = function(type, url, params, isLoading, isToast){
+        var defer = Q.defer();
+        var _obj = {
+            type:type || 'get',
+            dataType:'json',
+            data:params,
+            xhrField:{
+                withGredentials:true
+            },
+            url:CONFIG.ROOT_API+url,
+            beforeSend:function(){
+                $loading && $loading.show();
+            },
+            success:function(res){
 
-	//接口列表
-	var obj = {};
+                if(res.retCode !== 0){
+                    return (isToast && $$.alertInfo(res.msg || '未知错误'));
+                }
+                defer.resolve(res);
+            },
+            error:function(){
+                $$.alertInfo('异常');
+            },
+            complete:function(){
+                $loading && $loading.hide();
+            }
+        }
+        $.ajax(_obj);
+        return defer.promise;
+    }
 
-	obj.getArticleList = function(params){
-		return $http('get', '/article/getList', params, false);
-	}
-	obj.login = function(params){
-		return $http('post', '/admin/login', params, true);
-	}
+    //接口列表
+    var obj = {};
+
+    obj.getArticleList = function(params){
+        return $http('get', '/article/getList', params, true);
+    }
+    obj.login = function(params){
+        return $http('post', '/admin/login', params, true);
+    }
     obj.getDiffArticle = function(params){
-        return $http('get', '/article/getDiffArticle', params, false);
+        return $http('get', '/article/getDiffArticle', params, true);
     }
     obj.getCommentList = function(params){
         return $http('get', '/comment/getList', params, true);
     }
-	return obj;
+    return obj;
 });

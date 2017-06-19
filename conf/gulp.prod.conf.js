@@ -18,6 +18,8 @@ var spriter = require('gulp-css-spriter');
 var fileinclude = require('gulp-file-include');
 var clean = require('gulp-clean');
 var htmlmin = require('gulp-htmlmin');
+var uglify = require('gulp-uglify');
+
 var rjsConfig = require('./gulp.rjs.conf');
 
 /**
@@ -49,7 +51,7 @@ gulp.task('open:build', function() {
 gulp.task('clean:build', function(){
     return gulp.src('dist')
     .pipe(clean())
-})
+});
 
 /**
  * 赋值src到dist
@@ -89,7 +91,7 @@ gulp.task('deljs:build', function(){
  */
 gulp.task('rjs:build', ['deljs:build'], function(){
     return gulp.src(['dist/**/main-*.js', '!dist/assets/libs/**/*.js'])
-    .pipe(rjs(rjsConfig))
+    .pipe(rjs(rjsConfig.main))
     .pipe(rev())
     .pipe(gulp.dest('dist'))
     .pipe(rev.manifest())
@@ -103,6 +105,16 @@ gulp.task('jsdir:build',['rjs:build'], function(){
     return gulp.src(['dist/rev/js/*.json', 'dist/**/*.html', '!dist/assets/libs/**/*'])
     .pipe(revCollector())
     .pipe(gulp.dest('dist'))
+});
+
+/**
+ * 单独打包vendor公共模块
+ */
+gulp.task('rjs:vendor:build', function(){
+    return gulp.src('dist/assets/js/vendor.js')
+    .pipe(rjs(rjsConfig.vendor))
+    //需要指定文件夹，如果只是dist，那么会分配到根目录
+    .pipe(gulp.dest('dist/assets/js'))
 });
 
 /**
@@ -202,8 +214,17 @@ gulp.task('htmlmin', function () {
  */
 gulp.task('delrubbish', function(){
     //删除文件夹可以使用dist/folder
-    return gulp.src(['dist/{rev,include}', 'dist/assets/img/sprite', 'dist/assets/css/**/*.css', 'dist/**/js/*.js', 
-        'dist/assets/js/*.js', 'dist/**/css/*.css', '!dist/assets/css/**/*-*.css', '!dist/assets/libs/**/*.css', '!dist/assets/js/vendor.js', '!dist/**/main-*-*.js', '!dist/libs/**/*','!dist/**/main-*-*.css'])
+    return gulp.src(['dist/{rev,include}', 'dist/assets/img/sprite', 'dist/assets/css/**/*.css', 'dist/**/js/*.js',
+        'dist/assets/js/*.js', 'dist/**/css/*.css', '!dist/assets/css/**/*-*.css', '!dist/assets/libs/**/*.css', '!dist/assets/js/vendor.js', '!dist/**/main-*-*.js', '!dist/assets/libs/**/*','!dist/**/main-*-*.css'])
     .pipe(vinylPaths(del))
-})
+});
+
+/**
+ * 压缩require.js
+ */
+gulp.task('libsmin', function () {
+    return gulp.src('dist/assets/libs/*.js')
+    .pipe(uglify())
+    .pipe(gulp.dest('dist/assets/libs'));
+});
 
