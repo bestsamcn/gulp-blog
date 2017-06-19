@@ -92,16 +92,73 @@ exports.vendor = {
     background: url(../../assets/img/sprite/cate-other-on.png) 0 0 no-repeat;
 }
 ```
+- 另外一个问题就是`gulp-css-spriter`的无差别攻击相当蛋疼，假如你将一张1920*1080的图作为背景，它也会毫不含糊将其合并进去，所以我们需要修改它的代码：
+文件在：`node_modules/gulp-css-spriter/lib/map-over-styles-and-transform-background-image-declarations.js`中，查找`transformDeclaration`方法，不废话，直接复制替换即可，之后就可以通过`?__set`来指定需要合并的背景图片了。
+```
+function transformDeclaration(declaration, declarationIndex, declarations) {
+    // Clone the declartion to keep it immutable
+    var transformedDeclaration = extend(true, {}, declaration);
+    transformedDeclaration = attachInfoToDeclaration(declarations, declarationIndex);
+
+    //replace for specify bg
+    // // background-image always has a url
+    // if(transformedDeclaration.property === 'background-image') {
+    //  return cb(transformedDeclaration, declarationIndex, declarations);
+    // }
+    // // Background is a shorthand property so make sure `url()` is in there
+    // else if(transformedDeclaration.property === 'background') {
+    //  var hasImageValue = spriterUtil.backgroundURLRegex.test(transformedDeclaration.value);
+
+    //  if(hasImageValue) {
+    //      return cb(transformedDeclaration, declarationIndex, declarations);
+    //  }
+    // }
+
+    //background-imagealwayshasaurl且判断url是否有?__set 后缀
+    if(transformedDeclaration.property === 'background-image'&&/\?__set/i.test(transformedDeclaration.value)){
+        transformedDeclaration.value = transformedDeclaration.value.replace('?__set','');
+        return cb(transformedDeclaration,declarationIndex,declarations);
+    }
+    //Backgroundisashorthandpropertysomakesure`url()`isinthere且判断url是否有?__set 后缀
+    else if(transformedDeclaration.property === 'background'&&/\?__set/i.test(transformedDeclaration.value)){
+        transformedDeclaration.value = transformedDeclaration.value.replace('?__set','');
+        var hasImageValue = spriterUtil.backgroundURLRegex.test(transformedDeclaration.value);
+        if(hasImageValue){
+            return cb(transformedDeclaration,declarationIndex,declarations);
+        }
+    }
+    // Wrap in an object so that the declaration doesn't get interpreted
+    return {
+        'value': transformedDeclaration
+    };
+}
+```
+使用如下：
+```css
+body{
+    background: url(../../assets/img/login-bg.jpg) no-repeat center;
+}
+.sign .logo{
+    width:34px;
+    height:34px;
+    background: url(../../assets/img/sprite/cate-hot.png?__set) 0 0 no-repeat;
+}
+.sign .haha{
+    width:34px;
+    height:34px;
+    background: url(../../assets/img/sprite/cate-hot-on.png?__set) 0 0 no-repeat;
+}
+```
 - 由于服务器会自动将根目录的``index.html``作为入口，所以应把首页的入口html文件放在根目录。
 - ``src/assets``这个文件夹分为``css,img,js,libs``三个文件夹，``css,js``存放公共的文件，``img/sprite``中放雪碧图源文件，``libs``存放第三方js组件库。
-- 其他文件夹以业务模块划分，例如首页是``home``,登录注册页是``sign``,其下都有两个文件夹``src/home/js``，``src/home/css``，以及页面（首页入口html放在根目录）。
-- ``src/include``这个文件夹主要放公共页面代码还有meta部分，后期可以将``art-template``模板存在此文件夹。
+- 其他文件夹以业务模块划分，例如首页是``home``,登录注册页是``sign``,其下都有两个文件夹``src/**/js``，``src/**/css``，以及页面（首页入口html放在根目录）。
+- ``src/include``这个文件夹主要放公共页面代码还有meta部分，后期可以将``art-template``模板存在此文件夹,例如tpl后缀的模板文件。
 - 生产环境打包完成后，请将文件放在网站服务器的根目录下。
 
 ## 注意
 - ``html,css``引入前缀都是``@@``，这种方式引入全是相对路径的。
-- 各个业务模块中的模块入口``main-*.js``的``require.config``仅用于开发环境，生产环境的打包全部使用``conf/gulp.rjs.conf.js``的配置。
-- ``html``中文件引入尽量使用绝对路径，因为生产环境打包添加版本控制的时候需要一个完整的路径，例如：
+- 各个业务模块中的模块入口``main-*.js``的``require.config``既适用于开发环境，也适用于生产环境，如此`vendor.js`才能单独打包引用。打包全部使用``conf/gulp.rjs.conf.js``的配置。
+- ``html``中文件引入尽量使用绝对路径，因为生产环境打包添加版本控制的时候需要一个完整的路径作为替换，例如：
 ```html
 <link rel="stylesheet" href="/home/css/main-home.css">
 <script src="/assets/js/require.js" data-main="/home/js/main-home.js"></script>
@@ -112,19 +169,18 @@ exports.vendor = {
 .lala{
     width:34px;
     height:34px;
-    background: url(../../img/sprite/cate-hot.png) 0 0 no-repeat;
+    background: url(../../img/sprite/cate-hot.png?__set) 0 0 no-repeat;
 }
 - css注释必须使用/*xxxx*/，否则打包css会出问题
 ```
 
 ## 步骤
 1.  安装浏览器livereload插件，safari下因为livereload的原因会报错。
-2.  假设你已经全局安装了node,gulp,bower等cli，那么执行以下命令行：
+2.  假设你已经全局安装了node,gulp等cli，那么执行以下命令行：
 ```bash
 git clone -b dev https://github.com/bestsamcn/gulp-config.git
 cd gulp-config
 npm install
-bower install
 npm run dev
 npm run build
 ```

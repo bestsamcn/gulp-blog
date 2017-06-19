@@ -85,10 +85,10 @@ body{
 .sign .logo{
     width:34px;
     height:34px;
-    background: url(../../assets/img/sprite/cate-hot.png) 0 0 no-repeat;
+    background: url(../../assets/img/sprite/cate-hot.png?__set) 0 0 no-repeat;
 }
 .sign .haha{
     width:34px;
     height:34px;
-    background: url(../../assets/img/sprite/cate-hot-on.png) 0 0 no-repeat;
+    background: url(../../assets/img/sprite/cate-hot-on.png?__set) 0 0 no-repeat;
 }
