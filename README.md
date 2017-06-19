@@ -1,6 +1,6 @@
 # gulp-config
 基于``gulp``, ``gulp-file-include``, ``gulp-requirejs-optimize``等的多页面脚手架。
-这个分支是使用了rjs作为打包方式，打包配置文件在``conf/gulp.rjs.conf.js``中
+这个分支是使用了rjs作为打包方式，打包配置文件在``conf/gulp.rjs.conf.js``中， 主要优势在于实现了公共模块与业务模块分离，最大限度优化性能。
 
 ## 功能
 ### ``npm run dev``开发环境任务
@@ -12,7 +12,7 @@
 1.  预览服务器
 2.  ``css,html``模板编译
 3.  ``css``打包压缩，版本控制
-4.  ``js``模块打包压缩，版本控制
+4.  ``js``模块打包压缩，版本控制，公共模块与业务模块分离
 5.  ``background-image``生成雪碧图，修改雪碧图路径
 6. 图片压缩
 
@@ -21,10 +21,12 @@
 - ``npm run dev``是开发环境下启动任务，没有做任何的压缩和打包操作，方便调试。
 - ``npm run build`` 这个任务会依据所有``main-*.js``及其依赖进行打包，这个操作需要用到``conf/gulp.rjs.conf.js``配置需要用到的模块。如下:
 ```javascript
-module.exports = {
+//业务模块打包
+exports.main = {
     baseUrl:'./dist',
     paths:{
-        vendor:'assets/js/vendor',
+        // vendor:'assets/js/vendor',
+        vendor:'empty:',
         template:'assets/libs/arttemplate',
         CONFIG:'assets/js/config',
         API:'assets/js/service',
@@ -36,6 +38,38 @@ module.exports = {
         plus:'sign/js/index'
     },
     shim:{
+        bootstrap:{
+            deps:['jquery'],
+            exports:'bootstrap'
+        },
+        owlcarousel:{
+            deps:['jquery'],
+            exports:'owlcarousel'
+        }
+    }
+}
+
+//公共模块打包
+exports.vendor = {
+    baseUrl:'./dist',
+    paths:{
+        vendor:'assets/js/vendor',
+        template:'assets/libs/arttemplate',
+        jquery:'assets/libs/jquery/dist/jquery.min',
+        bootstrap:'assets/libs/bootstrap/dist/js/bootstrap.min',
+        owlcarousel:'assets/libs/owl.carousel/dist/owl.carousel.min',
+        q:'assets/libs/q/q'
+    },
+    shim:{
+        q:{
+            exports:'q'
+        },
+        jquery:{
+            exports:'jquery'
+        },
+        template:{
+            exports:'template'
+        },
         bootstrap:{
             deps:['jquery'],
             exports:'bootstrap'
@@ -66,7 +100,7 @@ module.exports = {
 
 ## 注意
 - ``html,css``引入前缀都是``@@``，这种方式引入全是相对路径的。
-- 各个业务模块中的模块入口``main-*.js``的``require.config``仅用于开发环境，生产环境的打包全部使用``conf/gulp.rjs.conf.js``的配置。  
+- 各个业务模块中的模块入口``main-*.js``的``require.config``仅用于开发环境，生产环境的打包全部使用``conf/gulp.rjs.conf.js``的配置。
 - ``html``中文件引入尽量使用绝对路径，因为生产环境打包添加版本控制的时候需要一个完整的路径，例如：
 ```html
 <link rel="stylesheet" href="/home/css/main-home.css">
@@ -84,7 +118,7 @@ module.exports = {
 ```
 
 ## 步骤
-1.  安装浏览器livereload插件，safari下因为livereload的原因会报错。  
+1.  安装浏览器livereload插件，safari下因为livereload的原因会报错。
 2.  假设你已经全局安装了node,gulp,bower等cli，那么执行以下命令行：
 ```bash
 git clone -b dev https://github.com/bestsamcn/gulp-config.git
