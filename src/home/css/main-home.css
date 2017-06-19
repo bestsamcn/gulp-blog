@@ -1,13 +1,27 @@
-@@include('../../assets/libs/bootstrap/dist/css/bootstrap.css')
-@@include('../../assets/css/base.css')
-@@include('../../assets/libs/owl.carousel/dist/assets/owl.carousel.css')
+@@include('../../assets/css/home/index.css')
+@@include('../../assets/css/home/category.css')
+@@include('../../assets/css/home/rank.css')
+@@include('../../assets/css/home/tag.css')
+@@include('../../assets/css/article.css')
 .home{
-    width:100%;  
-    height:100%;
-    text-align: center; 
+    text-align: center;
 }
-.home .hehe{
-    width:34px;
-    height:34px;
-    background: url(../../assets/img/sprite/cate-other-on.png) 0 0 no-repeat;
+.home{
+    margin-top:70px;
+}
+.home .more-btn{
+    width:50%;
+    height:40px;
+    border-radius: 40px;
+    line-height: 40px;
+    display: block;
+    color:#999;
+    text-align: center;
+    border:1px solid #eee;
+    margin:0 auto;
+}
+@media screen and (max-width:768px){
+    .home{
+        padding:0;
+    }
 }

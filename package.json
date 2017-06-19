@@ -4,11 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "gulp dev",
+    "build": "gulp build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "amd-optimize": "^0.6.1",
     "bower": "^1.8.0",
     "cssmin": "^0.4.3",
     "del": "^2.2.2",
@@ -22,17 +25,21 @@
     "gulp-cssmin": "^0.1.7",
     "gulp-debug": "^3.1.0",
     "gulp-file-include": "^1.0.0",
+    "gulp-htmlmin": "^3.0.0",
     "gulp-imagemin": "^3.2.0",
     "gulp-livereload": "^3.8.1",
     "gulp-open": "^2.0.0",
     "gulp-plumber": "^1.1.0",
     "gulp-remember": "^0.3.1",
+    "gulp-requirejs-optimize": "^1.2.0",
     "gulp-rev": "^7.1.2",
     "gulp-rev-collector": "^1.1.1",
-    "gulp-uglify": "^2.1.2",
+    "gulp-uglify": "^3.0.0",
     "plumber": "^0.4.8",
     "run-sequence": "^1.2.2",
     "vinyl-paths": "^2.1.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "gulp-requirejs-optimize": "^1.2.0"
+  }
 }
