@@ -92,6 +92,21 @@ exports.vendor = {
     background: url(../../assets/img/sprite/cate-other-on.png) 0 0 no-repeat;
 }
 ```
+- 当前路由导航激活状态，通过`@@include`传参，并在header里面使用`@@if`判断，但是有个需要注意的地方
+index.html
+```
+@@include("./include/lyt/header.html", {"page":"home"})
+```
+header.html,不能直接使用`page`，而是使用`context.page`,这个好奇怪，我在开发环境可以直接使用page，但是打包死活报错page 没有定义。
+```
+<div class="nav-list sm-hide">
+    <a @@if (context.page === 'home'){class="active"} href="/">首页</a>
+    <a >搜索</a>
+    <a >关于</a>
+    <a >留言</a>
+    <a href="/sign">登录</a>
+</div>
+```
 - 另外一个问题就是`gulp-css-spriter`的无差别攻击相当蛋疼，假如你将一张1920*1080的图作为背景，它也会毫不含糊将其合并进去，所以我们需要修改它的代码：
 文件在：`node_modules/gulp-css-spriter/lib/map-over-styles-and-transform-background-image-declarations.js`中，查找`transformDeclaration`方法，不废话，直接复制替换即可，之后就可以通过`?__set`来指定需要合并的背景图片了。
 ```
