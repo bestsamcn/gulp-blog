@@ -35,6 +35,7 @@
     "gulp-rev": "^7.1.2",
     "gulp-rev-collector": "^1.1.1",
     "gulp-uglify": "^3.0.0",
+    "imagemin-pngquant": "^5.0.1",
     "plumber": "^0.4.8",
     "run-sequence": "^1.2.2",
     "vinyl-paths": "^2.1.0"

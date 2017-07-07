@@ -19,6 +19,8 @@ var fileinclude = require('gulp-file-include');
 var clean = require('gulp-clean');
 var htmlmin = require('gulp-htmlmin');
 var uglify = require('gulp-uglify');
+var debug = require('gulp-debug');
+var pngquant = require('imagemin-pngquant');
 
 var rjsConfig = require('./gulp.rjs.conf');
 
@@ -70,6 +72,7 @@ gulp.task('copy:build', ['clean:build'],function() {
  */
 gulp.task('includefile:build', function() {
     return gulp.src('src/**/*.{html,tpl}')
+    .pipe(debug({title:'复制:'}))
     .pipe(fileinclude({
         prefix:'@@',
         basepath: '@file'
@@ -172,8 +175,10 @@ gulp.task('imagemin:build', function(){
         optimizationLevel:5,
         progressive:true,
         interlaced:true,
-        multipass:true
+        multipass:true,
+        use: [pngquant()]
     }))
+    .pipe(debug({title:'图片压缩:'}))
     .pipe(gulp.dest('dist/assets/img'))
 });
 
