@@ -65,7 +65,7 @@ gulp.task('copy', function() {
 gulp.task('includefile', function() {
     return gulp.src(['src/**/*.{html, tpl}', '!src/include', '!src/include/*'])
     .pipe(plumber())
-    // .pipe(cached('includefile'))
+    .pipe(cached('includefile'))
     .pipe(fileinclude({
         prefix: '@@',
         basepath: '@file'
@@ -82,7 +82,7 @@ gulp.task('includefile', function() {
 gulp.task('includecs', function() {
     return gulp.src(['src/**/*.css'])
     .pipe(plumber())
-    // .pipe(cached('includecs'))
+    .pipe(cached('includecs'))
     .pipe(fileinclude({
       prefix: '@@',
       basepath: '@file'
