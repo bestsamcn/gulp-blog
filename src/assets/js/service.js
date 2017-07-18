@@ -22,7 +22,7 @@ define(['vendor', 'CONFIG'], function(vendor, CONFIG){
             },
             url:CONFIG.ROOT_API+url,
             beforeSend:function(){
-                $loading && $loading.show();
+                isLoading&& $loading && $loading.show();
             },
             success:function(res){
 
@@ -35,7 +35,7 @@ define(['vendor', 'CONFIG'], function(vendor, CONFIG){
                 $$.alertInfo('异常');
             },
             complete:function(){
-                $loading && $loading.hide();
+                isLoading &&　$loading && $loading.hide();
             }
         }
         $.ajax(_obj);
