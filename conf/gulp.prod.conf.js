@@ -19,7 +19,9 @@ var fileinclude = require('gulp-file-include');
 var clean = require('gulp-clean');
 var htmlmin = require('gulp-htmlmin');
 var uglify = require('gulp-uglify');
-
+var debug = require('gulp-debug');
+var pngquant = require('imagemin-pngquant');
+var obfuscate = require('gulp-obfuscate');
 var rjsConfig = require('./gulp.rjs.conf');
 
 /**
@@ -70,6 +72,7 @@ gulp.task('copy:build', ['clean:build'],function() {
  */
 gulp.task('includefile:build', function() {
     return gulp.src('src/**/*.{html,tpl}')
+    .pipe(debug({title:'复制:'}))
     .pipe(fileinclude({
         prefix:'@@',
         basepath: '@file'
@@ -172,8 +175,10 @@ gulp.task('imagemin:build', function(){
         optimizationLevel:5,
         progressive:true,
         interlaced:true,
-        multipass:true
+        multipass:true,
+        use: [pngquant()]
     }))
+    .pipe(debug({title:'图片压缩:'}))
     .pipe(gulp.dest('dist/assets/img'))
 });
 
@@ -196,8 +201,8 @@ gulp.task('htmlmin', function () {
     var options = {
         removeComments: true,//清除HTML注释
         collapseWhitespace: true,//压缩HTML
-        collapseBooleanAttributes: true,//省略布尔属性的值 <input checked="true"/> ==> <input />
-        removeEmptyAttributes: true,//删除所有空格作属性值 <input id="" /> ==> <input />
+        // collapseBooleanAttributes: true,//省略布尔属性的值 <input checked="true"/> ==> <input />
+        // removeEmptyAttributes: true,//删除所有空格作属性值 <input id="" /> ==> <input />
         removeScriptTypeAttributes: true,//删除<script>的type="text/javascript"
         removeStyleLinkTypeAttributes: true,//删除<style>和<link>的type="text/css"
         minifyJS: true,//压缩页面JS
@@ -224,7 +229,18 @@ gulp.task('delrubbish', function(){
  */
 gulp.task('libsmin', function () {
     return gulp.src('dist/assets/libs/*.js')
+    .pipe(debug({title:'复制:'}))
     .pipe(uglify())
     .pipe(gulp.dest('dist/assets/libs'));
+});
+
+/**
+ * 混淆代码///有问题。。
+ */
+gulp.task('obfuscate', function(){
+    return gulp.src('dist/**/*/main-*-*.js')
+    .pipe(debug({title:'混淆:'}))
+    .pipe(obfuscate())
+    .pipe(gulp.dest('dist'))
 });
 

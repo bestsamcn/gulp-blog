@@ -1,5 +1,5 @@
 var DEV_HTTP = 'localhost'
-var DEV_PORT = 8081;
+var DEV_PORT = 8083;
 
 var gulp = require('gulp');
 var connect = require('gulp-connect');
@@ -80,7 +80,7 @@ gulp.task('includefile', function() {
  * 增量：利用fileinclude实现css模块化
  */
 gulp.task('includecs', function() {
-    return gulp.src(['src/**/*.css'])
+    return gulp.src(['src/**/*.css', '!src/assets/common/*.css'])
     .pipe(plumber())
     // .pipe(cached('includecs'))
     .pipe(fileinclude({
@@ -91,6 +91,8 @@ gulp.task('includecs', function() {
     .pipe(gulp.dest('dist'))
     .pipe(remember('includecs'))
 });
+
+
 
 /**
  * 增量监听

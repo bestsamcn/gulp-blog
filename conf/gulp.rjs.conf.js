@@ -28,6 +28,18 @@ exports.main = {
 
 //公共文件打包
 exports.vendor = {
+    optimize: 'uglify',
+    uglify: {
+        compress: {
+            screw_ie8: false
+        },
+        mangle: {
+            screw_ie8: false
+        },
+        output: {
+            screw_ie8: false
+        }
+    },
     baseUrl:'./dist',
     paths:{
         vendor:'assets/js/vendor',

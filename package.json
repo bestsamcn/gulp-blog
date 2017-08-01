@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "gulp dev",
-    "build": "gulp build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "gulp build"
   },
   "author": "",
   "license": "ISC",
@@ -28,6 +27,7 @@
     "gulp-htmlmin": "^3.0.0",
     "gulp-imagemin": "^3.2.0",
     "gulp-livereload": "^3.8.1",
+    "gulp-obfuscate": "^0.2.9",
     "gulp-open": "^2.0.0",
     "gulp-plumber": "^1.1.0",
     "gulp-remember": "^0.3.1",
@@ -35,6 +35,7 @@
     "gulp-rev": "^7.1.2",
     "gulp-rev-collector": "^1.1.1",
     "gulp-uglify": "^3.0.0",
+    "imagemin-pngquant": "^5.0.1",
     "plumber": "^0.4.8",
     "run-sequence": "^1.2.2",
     "vinyl-paths": "^2.1.0"
