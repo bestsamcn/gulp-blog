@@ -22,6 +22,7 @@ var uglify = require('gulp-uglify');
 var debug = require('gulp-debug');
 var pngquant = require('imagemin-pngquant');
 var obfuscate = require('gulp-obfuscate');
+
 var rjsConfig = require('./gulp.rjs.conf');
 
 /**

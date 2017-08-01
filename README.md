@@ -51,6 +51,18 @@ exports.main = {
 
 //公共模块打包
 exports.vendor = {
+    optimize: 'uglify',
+    uglify: {
+        compress: {
+            screw_ie8: false
+        },
+        mangle: {
+            screw_ie8: false
+        },
+        output: {
+            screw_ie8: false
+        }
+    },
     baseUrl:'./dist',
     paths:{
         vendor:'assets/js/vendor',
@@ -176,8 +188,8 @@ body{
 - 各个业务模块中的模块入口``main-*.js``的``require.config``既适用于开发环境，也适用于生产环境，如此`vendor.js`才能单独打包引用。打包全部使用``conf/gulp.rjs.conf.js``的配置。
 - ``html``中文件引入尽量使用绝对路径，因为生产环境打包添加版本控制的时候需要一个完整的路径作为替换，例如：
 ```html
-<link rel="stylesheet" href="/home/css/main-home.css">
-<script src="/assets/js/require.js" data-main="/home/js/main-home.js"></script>
+<link rel="stylesheet" href="/home/css/main-index.css">
+<script src="/assets/js/require.js" data-main="/home/js/main-index.js"></script>
 ```
 - 但是因为雪碧图的原因，css的路径必须使用相对路径
 ```css
