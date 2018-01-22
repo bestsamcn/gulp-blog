@@ -215,5 +215,5 @@ npm run build
 
 ## 预览
 - 该配置已开始实际应用。
-- [请点击我](http://gulp.bestsamcn.me/)预览
+- [请点击我](http://www.pcbequips.com/)预览
 
