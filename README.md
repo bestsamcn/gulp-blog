@@ -1,6 +1,10 @@
-# gulp-config
+# gulp-blog
 基于``gulp``, ``gulp-file-include``, ``gulp-requirejs-optimize``等的多页面脚手架。
 这个分支是使用了rjs作为打包方式，打包配置文件在``conf/gulp.rjs.conf.js``中， 实现了公共模块与业务模块分离，最大限度优化性能。
+
+也是基于``gulp+requirejs+arttemplate+jquery+express``的前后端分离的响应式web项目，另有[Vue版本](https://github.com/bestsamcn/vue-blog), [React版本](https://github.com/bestsamcn/react-blog)和[Angular版本](https://github.com/bestsamcn/angular-blog) 。
+
+此项目主要是简单实现了首页，完整版本的可以见vue和react这两个版本。
 
 ## 功能
 ### ``npm run dev``开发环境任务
@@ -215,5 +219,5 @@ npm run build
 
 ## 预览
 - 该配置已开始实际应用。
-- [请点击我](http://www.pcbequips.com/)预览
+- [请点击我](http://www.pcbequips.com/)预览，国外网站，速度稍慢。
 

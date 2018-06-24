@@ -110,7 +110,7 @@ require(['evt', 'vendor', 'API', 'CONFIG'], function(E, vendor, API, CONFIG) {
             });
         },
         setSidebarScroll:function(){
-            var _body = document.body;
+            var _body = document.documentElement;
              el = $('#sidebar')[0];
             var _pNode = el.parentNode;
             // return
